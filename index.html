@@ -1,187 +1,199 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Licenciatura en Criminalística</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Malla Lic. en Criminalística</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       background-color: #f4e2db;
-      color: #5c161c;
       margin: 0;
       padding: 0;
     }
     header {
-      background-color: #c02a30;
-      color: white;
-      padding: 1rem;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 1rem;
+      background-color: #5c161c;
+      color: white;
+      padding: 15px 30px;
     }
     header img {
       height: 50px;
+      margin-right: 15px;
     }
     h1 {
+      font-size: 1.8em;
       margin: 0;
-      font-size: 1.5rem;
     }
-    .container {
+    .malla {
       display: flex;
       flex-wrap: wrap;
-      padding: 1rem;
-      gap: 1rem;
       justify-content: center;
+      padding: 20px;
     }
-    .year-column {
-      background-color: #fff;
-      border: 2px solid #af7e80;
-      border-radius: 10px;
-      padding: 1rem;
-      width: 300px;
-    }
-    .year-column h2 {
-      text-align: center;
+    .anio {
       background-color: #af7e80;
-      color: white;
-      padding: 0.5rem;
-      border-radius: 5px;
-      font-size: 1rem;
+      margin: 15px;
+      border-radius: 12px;
+      padding: 15px;
+      flex: 1 1 300px;
+      max-width: 400px;
     }
-    .subject {
-      margin: 0.5rem 0;
-      padding: 0.5rem;
-      border: 1px solid #af7e80;
-      border-radius: 5px;
+    .anio h2 {
+      color: #fff;
+      text-align: center;
+    }
+    .cuatri {
       background-color: #fff;
+      border: 2px solid #c02a30;
+      border-radius: 10px;
+      margin-top: 10px;
+      padding: 10px;
+    }
+    .cuatri h3 {
+      color: #5c161c;
+      margin-bottom: 5px;
+    }
+    .materia {
+      background-color: #fdf2ee;
+      border: 1px solid #c02a30;
+      padding: 8px 10px;
+      margin: 5px 0;
+      border-radius: 6px;
       cursor: pointer;
       position: relative;
     }
-    .subject.completed {
+    .materia.aprobada {
       text-decoration: line-through;
-      background-color: #dcdcdc;
+      background-color: #d7d7d7;
     }
-    .subject.locked {
-      background-color: #f8d7da;
-      cursor: not-allowed;
-      color: #999;
+    .materia.bloqueada {
+      opacity: 0.5;
+      pointer-events: none;
     }
-    .subject:hover::after {
-      content: attr(data-tooltip);
+    .materia[title]:hover::after {
+      content: attr(title);
       position: absolute;
-      bottom: 100%;
-      left: 0;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      white-space: nowrap;
       background: #333;
       color: #fff;
-      padding: 5px;
-      font-size: 0.8rem;
-      white-space: pre-wrap;
+      padding: 3px 8px;
       border-radius: 5px;
-      display: block;
+      font-size: 0.8em;
+      margin-left: 10px;
+      z-index: 999;
     }
   </style>
 </head>
 <body>
+
   <header>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAw1BMVEX///8aXZZfn3IATY5QmGYAUI... (recortado por longitud) ..." alt="Logo Universidad">
-    <h1>Malla Interactiva - Licenciatura en Criminalística</h1>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAw1BMVEX///8aXZZfn3IATY5QmGYAUI9ZnG0AU5EAVZJUmmkAVJEATI1TmWgAUZBcnnASWpTq7/TCz97z9/Tr8u1/nLz09/rU49iZv6Th7OS608GCspBxqYHW5Nry9/PL3t/fy8fG61MGPk6p8pHMCb3lBhYl68sbF1ooTo7OweGBGmvMJDa2x1ZWhGTk6WysrVxc3UyJjUZFhsuKSm6dHdKYGjOzMyJkZJ2bGtQT0+KXlZGg3Q3Ly3a2dqDg3sPEhPAAAACGElEQVR4nO3c23KCMAwFYUqRiEKVDZVkKQqz//+bT8qxlMNuIE9i+T17keSUycnT1k4PM2YBnmgZ5oGeaBnmgZ5oGec+SmL8uyRlfp2/WycYc6yHcvnP9D6yW7Qz+yBxfbsb8+J71fcG7tc7Xe7qD93gb1bvU/Va+8vVbnsvyCN+Beq3G/d3f3c29L/wA7+z5vvkZ0b+dfuPPPe6f3tdv3+9k2zXWyH3u+96L/bxsdaO9fVufdzsk/39+wf6BumZkz0P1mQAAAABJRU5ErkJggg==" alt="Logo" />
+    <h1>Licenciatura en Criminalística</h1>
   </header>
 
-  <div class="container" id="malla"></div>
+  <div class="malla" id="malla"></div>
 
   <script>
-    const subjects = [
-      { name: "Introducción a la Criminalística", id: 1, ciclo: 1, cuatri: 1, req: [] },
-      { name: "Matemática", id: 2, ciclo: 1, cuatri: 1, req: [] },
-      { name: "Química General", id: 3, ciclo: 1, cuatri: 1, req: [] },
-      { name: "Taller de Alfabetización Académica", id: 4, ciclo: 1, cuatri: 1, req: [] },
-      { name: "Inglés I", id: 5, ciclo: 1, cuatri: 1, req: [] },
-      { name: "Criminalística", id: 6, ciclo: 1, cuatri: 2, req: [1] },
-      { name: "Derecho Constitucional", id: 7, ciclo: 1, cuatri: 2, req: [] },
-      { name: "Física I", id: 8, ciclo: 1, cuatri: 2, req: [2] },
-      { name: "Fotografía Pericial y Técnicas Audiovisuales", id: 9, ciclo: 1, cuatri: 2, req: [1] },
-      { name: "Informática", id: 10, ciclo: 1, cuatri: 2, req: [] },
-      { name: "Documentología I", id: 11, ciclo: 2, cuatri: 1, req: [1] },
-      { name: "Derecho Civil y Comercial", id: 12, ciclo: 2, cuatri: 1, req: [7] },
-      { name: "Química Orgánica I", id: 13, ciclo: 2, cuatri: 1, req: [3] },
-      { name: "Dibujo Pericial", id: 14, ciclo: 2, cuatri: 1, req: [] },
-      { name: "Inglés II", id: 15, ciclo: 2, cuatri: 1, req: [10] },
-      { name: "Física II", id: 16, ciclo: 2, cuatri: 2, req: [8] },
-      { name: "Accidentología", id: 17, ciclo: 2, cuatri: 2, req: [1] },
-      { name: "Estadística", id: 18, ciclo: 2, cuatri: 2, req: [2] },
-      { name: "Derecho Penal", id: 19, ciclo: 2, cuatri: 2, req: [12] },
-      { name: "Portugués I", id: 20, ciclo: 2, cuatri: 2, req: [] },
-      { name: "Documentología II", id: 21, ciclo: 3, cuatri: 1, req: [11] },
-      { name: "Derecho Procesal", id: 22, ciclo: 3, cuatri: 1, req: [19] },
-      { name: "Técnicas de Identificación Humana", id: 23, ciclo: 3, cuatri: 1, req: [9, 13] },
-      { name: "Las TICS en la Criminalística", id: 24, ciclo: 3, cuatri: 1, req: [5] },
-      { name: "Química Orgánica II", id: 25, ciclo: 3, cuatri: 1, req: [13] },
-      { name: "Accidentología II", id: 26, ciclo: 3, cuatri: 2, req: [17] },
-      { name: "Balística I", id: 27, ciclo: 3, cuatri: 2, req: [1] },
-      { name: "Psicología Criminal", id: 28, ciclo: 3, cuatri: 2, req: [] },
-      { name: "Prevención en Seguridad Vial y Medio Ambiente", id: 29, ciclo: 3, cuatri: 2, req: [17] },
-      { name: "Taller de Practica Profesional", id: 30, ciclo: 3, cuatri: 2, req: [17, 21, 22, 23] },
-      { name: "Balística II", id: 31, ciclo: 4, cuatri: 1, req: [27] },
-      { name: "Accidentología III", id: 32, ciclo: 4, cuatri: 1, req: [26] },
-      { name: "Toxicología", id: 33, ciclo: 4, cuatri: 1, req: [25] },
-      { name: "Portugués II", id: 34, ciclo: 4, cuatri: 1, req: [20] },
-      { name: "Metodología de la Investigación", id: 35, ciclo: 4, cuatri: 1, req: [18] },
-      { name: "Deontología Profesional", id: 36, ciclo: 4, cuatri: 2, req: [] },
-      { name: "Práctica Profesional Supervisada", id: 37, ciclo: 4, cuatri: 2, req: [21, 23, 32] },
-      { name: "Taller de Trabajo Integrador Final", id: 38, ciclo: 4, cuatri: 2, req: [21, 25, 31, 32, 35] }
+    const materias = [
+      { id: 1, nombre: "Introducción a la Criminalística", cuatri: "1° Año - 1° Cuatrimestre", requisitos: [] },
+      { id: 2, nombre: "Matemática", cuatri: "1° Año - 1° Cuatrimestre", requisitos: [] },
+      { id: 3, nombre: "Química General", cuatri: "1° Año - 1° Cuatrimestre", requisitos: [] },
+      { id: 4, nombre: "Taller de Alfabetización Académica", cuatri: "1° Año - 1° Cuatrimestre", requisitos: [] },
+      { id: 5, nombre: "Ingles I", cuatri: "1° Año - 1° Cuatrimestre", requisitos: [] },
+      { id: 6, nombre: "Criminalística", cuatri: "1° Año - 2° Cuatrimestre", requisitos: [1] },
+      { id: 7, nombre: "Derecho Constitucional", cuatri: "1° Año - 2° Cuatrimestre", requisitos: [] },
+      { id: 8, nombre: "Física I", cuatri: "1° Año - 2° Cuatrimestre", requisitos: [2] },
+      { id: 9, nombre: "Fotografía Pericial y Técnicas Audiovisuales", cuatri: "1° Año - 2° Cuatrimestre", requisitos: [1] },
+      { id: 10, nombre: "Informática", cuatri: "1° Año - 2° Cuatrimestre", requisitos: [] },
+      { id: 11, nombre: "Documentología I", cuatri: "2° Año - 1° Cuatrimestre", requisitos: [1] },
+      { id: 12, nombre: "Derecho Civil y Comercial", cuatri: "2° Año - 1° Cuatrimestre", requisitos: [7] },
+      { id: 13, nombre: "Química Orgánica I", cuatri: "2° Año - 1° Cuatrimestre", requisitos: [3] },
+      { id: 14, nombre: "Dibujo Pericial", cuatri: "2° Año - 1° Cuatrimestre", requisitos: [] },
+      { id: 15, nombre: "Ingles II", cuatri: "2° Año - 1° Cuatrimestre", requisitos: [10] },
+      { id: 16, nombre: "Física II", cuatri: "2° Año - 2° Cuatrimestre", requisitos: [8] },
+      { id: 17, nombre: "Accidentología", cuatri: "2° Año - 2° Cuatrimestre", requisitos: [1] },
+      { id: 18, nombre: "Estadística", cuatri: "2° Año - 2° Cuatrimestre", requisitos: [2] },
+      { id: 19, nombre: "Derecho Penal", cuatri: "2° Año - 2° Cuatrimestre", requisitos: [12] },
+      { id: 20, nombre: "Portugués I", cuatri: "2° Año - 2° Cuatrimestre", requisitos: [] },
+      { id: 21, nombre: "Documentología II", cuatri: "3° Año - 1° Cuatrimestre", requisitos: [11] },
+      { id: 22, nombre: "Derecho Procesal", cuatri: "3° Año - 1° Cuatrimestre", requisitos: [19] },
+      { id: 23, nombre: "Técnicas de Identificación Humana", cuatri: "3° Año - 1° Cuatrimestre", requisitos: [9, 13] },
+      { id: 24, nombre: "Las TICS en la Criminalística", cuatri: "3° Año - 1° Cuatrimestre", requisitos: [5] },
+      { id: 25, nombre: "Química Orgánica II", cuatri: "3° Año - 1° Cuatrimestre", requisitos: [13] },
+      { id: 26, nombre: "Accidentologia II", cuatri: "3° Año - 2° Cuatrimestre", requisitos: [17] },
+      { id: 27, nombre: "Balística I", cuatri: "3° Año - 2° Cuatrimestre", requisitos: [1] },
+      { id: 28, nombre: "Psicología Criminal", cuatri: "3° Año - 2° Cuatrimestre", requisitos: [] },
+      { id: 29, nombre: "Prevención en Seguridad Vial y Medio Ambiente", cuatri: "3° Año - 2° Cuatrimestre", requisitos: [17] },
+      { id: 30, nombre: "Taller de Practica Profesional", cuatri: "3° Año - 2° Cuatrimestre", requisitos: [17, 21, 22, 23] },
+      { id: 31, nombre: "Balística II", cuatri: "4° Año - 1° Cuatrimestre", requisitos: [27] },
+      { id: 32, nombre: "Accidentologia III", cuatri: "4° Año - 1° Cuatrimestre", requisitos: [26] },
+      { id: 33, nombre: "Toxicología", cuatri: "4° Año - 1° Cuatrimestre", requisitos: [25] },
+      { id: 34, nombre: "Portugués II", cuatri: "4° Año - 1° Cuatrimestre", requisitos: [20] },
+      { id: 35, nombre: "Metodología de la Investigación", cuatri: "4° Año - 1° Cuatrimestre", requisitos: [18] },
+      { id: 36, nombre: "Deontología Profesional", cuatri: "4° Año - 2° Cuatrimestre", requisitos: [] },
+      { id: 37, nombre: "Practica Profesional Supervisada", cuatri: "4° Año - 2° Cuatrimestre", requisitos: [21, 23, 32] },
+      { id: 38, nombre: "Taller de Elaboración de Trabajo Integrador Final", cuatri: "4° Año - 2° Cuatrimestre", requisitos: [21, 25, 31, 32, 35] },
     ];
 
-    const completed = JSON.parse(localStorage.getItem("aprobadas")) || [];
+    const estado = JSON.parse(localStorage.getItem("estadoMaterias") || "[]");
+    const malla = document.getElementById("malla");
 
-    function saveProgress() {
-      localStorage.setItem("aprobadas", JSON.stringify(completed));
+    const cuatrimestres = {};
+    materias.forEach(m => {
+      cuatrimestres[m.cuatri] ||= [];
+      cuatrimestres[m.cuatri].push(m);
+    });
+
+    for (const [cuatri, lista] of Object.entries(cuatrimestres)) {
+      const [anioLabel] = cuatri.split("-");
+      let contenedor = document.querySelector(`[data-anio="${anioLabel.trim()}"]`);
+      if (!contenedor) {
+        contenedor = document.createElement("div");
+        contenedor.className = "anio";
+        contenedor.dataset.anio = anioLabel.trim();
+        contenedor.innerHTML = `<h2>${anioLabel.trim()}</h2>`;
+        malla.appendChild(contenedor);
+      }
+
+      const bloque = document.createElement("div");
+      bloque.className = "cuatri";
+      bloque.innerHTML = `<h3>${cuatri.trim()}</h3>`;
+      lista.forEach(m => {
+        const div = document.createElement("div");
+        div.className = "materia";
+        div.textContent = m.nombre;
+        div.dataset.id = m.id;
+        actualizarEstado(div, m);
+        div.onclick = () => {
+          const i = estado.indexOf(m.id);
+          if (i > -1) estado.splice(i, 1);
+          else estado.push(m.id);
+          localStorage.setItem("estadoMaterias", JSON.stringify(estado));
+          location.reload();
+        };
+        bloque.appendChild(div);
+      });
+      contenedor.appendChild(bloque);
     }
 
-    function render() {
-      const container = document.getElementById("malla");
-      container.innerHTML = "";
-      for (let ciclo = 1; ciclo <= 4; ciclo++) {
-        const cuatri1 = subjects.filter(s => s.ciclo === ciclo && s.cuatri === 1);
-        const cuatri2 = subjects.filter(s => s.ciclo === ciclo && s.cuatri === 2);
+    function actualizarEstado(div, m) {
+      if (estado.includes(m.id)) {
+        div.classList.add("aprobada");
+        return;
+      }
 
-        const col = document.createElement("div");
-        col.className = "year-column";
-        col.innerHTML = `<h2>${ciclo}° Año - 1er y 2do Cuatrimestre</h2>`;
-
-        [...cuatri1, ...cuatri2].forEach(subj => {
-          const div = document.createElement("div");
-          div.className = "subject";
-          div.textContent = subj.name;
-
-          const isUnlocked = subj.req.every(r => completed.includes(r));
-          const isDone = completed.includes(subj.id);
-
-          if (!isUnlocked) {
-            div.classList.add("locked");
-            const faltan = subj.req.filter(r => !completed.includes(r));
-            div.setAttribute("data-tooltip", `Requiere: ${faltan.map(id => subjects.find(s => s.id === id).name).join(", ")}`);
-          } else {
-            div.onclick = () => {
-              if (isDone) {
-                completed.splice(completed.indexOf(subj.id), 1);
-              } else {
-                completed.push(subj.id);
-              }
-              saveProgress();
-              render();
-            };
-          }
-
-          if (isDone) div.classList.add("completed");
-          col.appendChild(div);
-        });
-
-        container.appendChild(col);
+      const faltantes = m.requisitos.filter(r => !estado.includes(r));
+      if (faltantes.length) {
+        div.classList.add("bloqueada");
+        const nombres = materias.filter(x => faltantes.includes(x.id)).map(x => x.nombre);
+        div.title = "Requiere: " + nombres.join(", ");
       }
     }
-
-    render();
   </script>
 </body>
 </html>
